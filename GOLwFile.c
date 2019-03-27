@@ -44,7 +44,7 @@ for (i=0; i < nRows; i++)//loop over the rows of the table
     {   //nothing stops you from having instructions before the loop within loop if needed
             for (j=0; j < nCols; j++)//loop over the columns of the table
             {
-                if (table[i][j]==1 ){
+                if (table[i][j]== 1 ){
                     printf("*");
                 }
                 else printf("x");
@@ -109,48 +109,44 @@ void updateGameOfLife(int golGrid[MAXROWS][MAXCOLS], int nRows, int nCols)
 
 int main(int argc, int *argv[])
 { 
-	int table[100];//Array is for transfering .txt data from fileData and passes to golGrid[rowIndex][colIndex]
-	int i;//establishes a counter and sets to zero, i will incremently store each value from .txt file
-	//int screenSize;//derived from first value encountered in .txt file and is used to set userRows and useCols
-	int fileData;//.txt file is read then stored into fileData
-	FILE * myFile;// declares myFile as a file pointer 
-
-	myFile = fopen("lifeTwo.txt","r");//file ptr 'myFile' opens .txt and reads
-	
-	//if statement ensures that if file is not found an exit is executed to prevent crash
-	if (myFile == NULL) {
-		printf("***File Not Found***\n");
-		exit(1);	
-		}
-	
-	fscanf(myFile, "%d", &fileData);//reads .txt file and sets row width and height (first line of .txt) by using fileData to store data in
-		
-    int useRows = fileData, useCols = fileData; // rows and columns of the active array (square screen)
-    
-    while ( ! feof(myFile) ) { //feof(file end of file) will be true if we hit end of file in previous attempt
-        fscanf(myFile, "%d", &fileData);//attempt to read next value and store in fileData       
-        table[i] = fileData;//stores data in array**********so now I need to use array as games input.
-        i++;//keeps reading values from .txt
-    }//end while
+    FILE *fPointer;
         
-    //.txt file should be closed when your program is done using it
-    fclose(myFile);
-
-
-    int rowIndex, colIndex;   
-    int golGrid[MAXROWS][MAXCOLS];  
-    int golNeighborCounts[MAXROWS][MAXCOLS];
+    //if statement ensures that if file is not found an exit is executed to prevent crash
+	if ((fPointer = fopen("lifeFour.txt","r")) == NULL) {
+		puts("***File Not Found***");
+	}//end if
+    
+    char singleLine[150];
+    
+    while(!feof(fPointer))  {
+        fgets(singleLine, 150, fPointer);
+        printf("%s", singleLine);
+        singleLine[0] = '\0';
+    
+    }
+    
+    
+    
+    fclose(fPointer);
+    
+    int useRows=20, useCols=20;
+	int rowIndex, colIndex; 
+	int golGrid[MAXROWS][MAXCOLS]; 
+	int golNeighborCounts[MAXROWS][MAXCOLS];      
+ 
     
     
     for (rowIndex=0; rowIndex < useRows; rowIndex++)//loop over the rows of the table
     {   //nothing stops you from having instructions before the loop within loop if needed
         for (colIndex=0; colIndex < useCols; colIndex++)//loop over the columns of the table
          {
-           golGrid[rowIndex][colIndex] = table[i];
+           golGrid[rowIndex][colIndex] = singleLine[150];
          
          }//end for(2)       
         
-    }//end for(1)    
+    }//end for(1)  
+    
+      
 
 
     //print array to terminal in a neat table
@@ -174,10 +170,12 @@ int main(int argc, int *argv[])
         usleep(1000000);
         system("clear");//system function runs command 'clear' on WindowsOS 'clr'
             
-    }   
+    }//end while
+     
+     
     
     
-}
+}//end main
 
 
 
